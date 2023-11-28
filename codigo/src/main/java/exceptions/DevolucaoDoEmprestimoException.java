@@ -2,14 +2,13 @@ package main.java.exceptions;
 
 import java.io.Serial;
 
-public class ItemIndisponivelException extends Exception{
+public class DevolucaoDoEmprestimoException extends Exception{
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public ItemIndisponivelException(String message) {
+
+    public DevolucaoDoEmprestimoException(String message) {
         super(message);
     }
-
-
 }

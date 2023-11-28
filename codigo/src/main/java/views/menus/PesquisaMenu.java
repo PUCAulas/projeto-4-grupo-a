@@ -1,6 +1,7 @@
 package main.java.views.menus;
 
 import main.java.enums.FiltroPesquisa;
+import main.java.exceptions.ItemIndisponivelException;
 import main.java.models.Biblioteca;
 import main.java.utils.InputScannerUtil;
 
@@ -12,7 +13,7 @@ public class PesquisaMenu {
      * @param biblioteca biblioteca de referencia
      * @throws Exception lanca excecao caso o item nao seja encontrado
      */
-    public static void pesquisa(Biblioteca biblioteca) throws Exception {
+    public static void pesquisa(Biblioteca biblioteca) throws ItemIndisponivelException {
 
         while (true) {
             System.out.println("\nEscolha um filtro de pesquisa:");
@@ -65,6 +66,8 @@ public class PesquisaMenu {
 
         }
     }
+
+
 
 
 }

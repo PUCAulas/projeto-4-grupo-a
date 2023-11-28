@@ -2,6 +2,7 @@ package main.java.views.inputs;
 
 import main.java.enums.Perfil;
 import main.java.enums.StatusEmprestimo;
+import main.java.exceptions.*;
 import main.java.models.Usuario;
 import main.java.models.itens.Emprestavel;
 import main.java.services.ItemEmprestavelService;
@@ -99,7 +100,7 @@ public class UsuarioInput {
      * @return lista de emprestaveis disponiveis
      * @throws Exception
      */
-    public static List<Emprestavel> EmprestadosDisponiveis(UsuarioService usuarioService) throws Exception {
+    public static List<Emprestavel> EmprestadosDisponiveis(UsuarioService usuarioService) throws ItemIndisponivelException {
         List<Emprestavel> emprestaveis = new ArrayList<>();
 
         try {
@@ -111,7 +112,7 @@ public class UsuarioInput {
         }
 
         if (emprestaveis.isEmpty())
-            throw new Exception("Não existe empréstimos disponíveis");
+            throw new ItemIndisponivelException("Não existe empréstimos disponíveis");
 
         return emprestaveis;
     }
@@ -122,7 +123,8 @@ public class UsuarioInput {
      * @param usuarioService servico de usuario
      * @throws Exception
      */
-    public static void escolherItemParaEmprestimo(UsuarioService usuarioService) throws Exception {
+    public static void escolherItemParaEmprestimo(UsuarioService usuarioService)  throws ItemIndisponivelException, ItemNaoEmprestavelException,
+            EmprestimoLimiteException, DevolucaoDoEmprestimoException, UsuarioAutenticadoException {
 
             Usuario usuario = obterUsuarioCadastrado(usuarioService);
             ItemEmprestavelService itemEmprestavelService = new ItemEmprestavelService(usuarioService.getBiblioteca());
@@ -141,7 +143,8 @@ public class UsuarioInput {
      * @param usuarioService servico de usuario
      * @throws Exception
      */
-    public static void obterDadosParaDevolucao(UsuarioService usuarioService) throws Exception {
+    public static void obterDadosParaDevolucao(UsuarioService usuarioService) throws ItemIndisponivelException, DevolucaoDoEmprestimoException,
+            ItemNaoEmprestavelException, UsuarioAutenticadoException {
 
             Usuario usuario = obterUsuarioCadastrado(usuarioService);
 
@@ -197,7 +200,7 @@ public class UsuarioInput {
      *
      * @param usuarioService servico de usuario
      */
-    public static Usuario obterUsuarioCadastrado(UsuarioService usuarioService) throws Exception { // login
+    public static Usuario obterUsuarioCadastrado(UsuarioService usuarioService) throws UsuarioAutenticadoException { // login
         System.out.print("\nInforme sua senha: ");
         String senha = InputScannerUtil.scanner.nextLine();
         System.out.print("Informe seu email: ");

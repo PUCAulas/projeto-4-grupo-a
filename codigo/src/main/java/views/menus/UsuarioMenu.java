@@ -2,6 +2,8 @@ package main.java.views.menus;
 
 import java.util.List;
 
+import main.java.exceptions.*;
+import main.java.models.Biblioteca;
 import main.java.models.itens.Emprestavel;
 import main.java.services.UsuarioService;
 import main.java.utils.InputScannerUtil;
@@ -46,32 +48,13 @@ public class UsuarioMenu {
                     UsuarioInput.obterDadosDeExclusao(usuarioService);
                     break;
                 case 4:
-                    try {
-                        PesquisaMenu.pesquisa(usuarioService.getBiblioteca());
-                    } catch (Exception e) {
-                        System.out.println("Erro: " + e.getMessage());
-                        System.out.println();
-                    }
+                    pesquisarItens(usuarioService);
                     break;
                 case 5:
-                    try {
-                        List<Emprestavel> emprestaveis = UsuarioInput.EmprestadosDisponiveis(usuarioService);
-                        imprimirListaEmprestaveis(emprestaveis);
-
-                        UsuarioInput.escolherItemParaEmprestimo(usuarioService);
-                        System.out.println("Empréstimo realizado com sucesso!");
-                        System.out.println("Aperte Enter para continuar...");
-                        InputScannerUtil.scanner.nextLine();
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
-                    }
+                    pegarEmprestado(usuarioService);
                     break;
                 case 6:
-                    try {
-                        UsuarioInput.obterDadosParaDevolucao(usuarioService);
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
-                    }
+                    devolverEmprestimo(usuarioService);
                     break;
 
                 default:
@@ -91,5 +74,45 @@ public class UsuarioMenu {
             System.out.println(emprestavel);
         }
     }
+
+
+
+    public static void pegarEmprestado(UsuarioService usuarioService) {
+        try {
+            List<Emprestavel> emprestaveis = UsuarioInput.EmprestadosDisponiveis(usuarioService);
+            imprimirListaEmprestaveis(emprestaveis);
+
+            UsuarioInput.escolherItemParaEmprestimo(usuarioService);
+            System.out.println("Empréstimo realizado com sucesso!");
+            System.out.println("Aperte Enter para continuar...");
+            InputScannerUtil.scanner.nextLine();
+        } catch (ItemIndisponivelException | ItemNaoEmprestavelException | EmprestimoLimiteException |
+                DevolucaoDoEmprestimoException | UsuarioAutenticadoException e) {
+
+            System.out.println("Erro: " + e.getMessage());
+        }
+    }
+
+
+    public static void devolverEmprestimo(UsuarioService usuarioService) {
+        try {
+            UsuarioInput.obterDadosParaDevolucao(usuarioService);
+        } catch (ItemIndisponivelException | DevolucaoDoEmprestimoException | ItemNaoEmprestavelException | UsuarioAutenticadoException e) {
+
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+    public static void pesquisarItens(UsuarioService usuarioService) {
+        try {
+            PesquisaMenu.pesquisa(usuarioService.getBiblioteca());
+        } catch (ItemIndisponivelException e) {
+            System.out.println("Erro: " + e.getMessage());
+            System.out.println();
+        }
+    }
+
+
 
 }

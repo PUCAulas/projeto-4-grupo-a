@@ -1,6 +1,9 @@
 package main.java.models;
 
 import main.java.enums.Perfil;
+import main.java.exceptions.DevolucaoDoEmprestimoException;
+import main.java.exceptions.EmprestimoLimiteException;
+import main.java.exceptions.ItemIndisponivelException;
 import main.java.models.itens.Emprestavel;
 import main.java.utils.DataUtil;
 
@@ -158,9 +161,9 @@ public class Usuario {
      * @throws Exception
      */
 
-    public void verificarLimiteParaEmprestimo() throws Exception {
+    public void verificarLimiteParaEmprestimo() throws EmprestimoLimiteException {
         if(this.getQtdItensEmprestadosAtualmente() == this.getQTD_MAX_ITENS_EMPRESTADOS())
-            throw new Exception("O limite de itens emprestados por vez é de 3!");
+            throw new EmprestimoLimiteException("O limite de itens emprestados por vez é de 3!");
     }
 
     /**
@@ -170,7 +173,7 @@ public class Usuario {
      * @return item emprestavel
      * @throws Exception
      */
-    public Emprestavel acharEmprestavelPorId(int id) throws Exception {
+    public Emprestavel acharEmprestavelPorId(int id) throws ItemIndisponivelException {
         Emprestavel itemEmprestavel = null;
         for (Emprestavel emprestavel : this.getItensEmprestados()) {
             if (emprestavel.getId() == id) {
@@ -180,7 +183,7 @@ public class Usuario {
         }
 
         if(itemEmprestavel == null)
-            throw new Exception("Item emprestável na lista do usuário não encontrado!");
+            throw new ItemIndisponivelException("Item emprestável na lista do usuário não encontrado!");
 
 
         return itemEmprestavel;
@@ -191,14 +194,14 @@ public class Usuario {
      * 
      * @throws Exception
      */
-    public void emprestavelEmAtrasoDoUsuario() throws Exception {
+    public void emprestavelEmAtrasoDoUsuario() throws DevolucaoDoEmprestimoException {
         Optional<Emprestavel> emprestavelEmAtraso = this.getItensEmprestados().stream()
                 .filter(this::devolucaoEmAtraso)
                 .findFirst();
 
         if (emprestavelEmAtraso.isPresent()) {
             Emprestavel emprestavel = emprestavelEmAtraso.get();
-            throw new Exception("Há um item em atraso, devolva-o antes de realizar outro empréstimo. " +
+            throw new DevolucaoDoEmprestimoException("Há um item em atraso, devolva-o antes de realizar outro empréstimo. " +
                     "ID: " + emprestavel.getId() + " | Status do empréstimo: " + emprestavel.getStatusEmprestimo());
         }
 

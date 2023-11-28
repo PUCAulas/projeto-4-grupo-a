@@ -2,14 +2,14 @@ package main.java.exceptions;
 
 import java.io.Serial;
 
-public class ItemIndisponivelException extends Exception{
+public class UsuarioAutenticadoException extends Exception{
+
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    public ItemIndisponivelException(String message) {
+
+    public UsuarioAutenticadoException(String message) {
         super(message);
     }
-
-
 }

@@ -1,6 +1,7 @@
 package main.java.models;
 
 import main.java.enums.FiltroPesquisa;
+import main.java.exceptions.ItemIndisponivelException;
 import main.java.interfaces.AutorFiltro;
 import main.java.interfaces.Relatorio;
 import main.java.models.itens.*;
@@ -81,11 +82,11 @@ public class Biblioteca implements Relatorio {
      * @param tipo filtro da pesquisa
      * @throws Exception lanca excecao caso nenhum item seja encontrado
      */
-    public void pesquisar(FiltroPesquisa tipo) throws Exception {
+    public void pesquisar(FiltroPesquisa tipo) throws ItemIndisponivelException {
         List<String> valoresAtributo = new ArrayList<>();
 
         if (this.getEstoque().getItens() == null) {
-            throw new Exception("Não existe nenhum item cadastrado no estoque!");
+            throw new ItemIndisponivelException("Não existe nenhum item cadastrado no estoque!");
         }
 
         for (Item item : this.getEstoque().getItens()) {
@@ -97,7 +98,7 @@ public class Biblioteca implements Relatorio {
         }
 
         if (valoresAtributo.isEmpty()) {
-            throw new Exception("Nenhum resultado encontrado!");
+            throw new ItemIndisponivelException("Nenhum resultado encontrado!");
         }
 
         String option = choice(valoresAtributo);

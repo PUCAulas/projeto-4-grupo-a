@@ -2,6 +2,7 @@ package main.java.services;
 
 import main.java.enums.StatusClassificacao;
 import main.java.enums.StatusEmprestimo;
+import main.java.exceptions.*;
 import main.java.interfaces.GerenciarEmprestimo;
 import main.java.models.Biblioteca;
 import main.java.models.Estoque;
@@ -286,7 +287,8 @@ public class ItemEmprestavelService implements GerenciarEmprestimo {
      * @param id
      * @param usuario
      */
-    public void emprestar(int id, Usuario usuario) throws Exception {
+    public void emprestar(int id, Usuario usuario) throws ItemIndisponivelException, ItemNaoEmprestavelException,
+            EmprestimoLimiteException, DevolucaoDoEmprestimoException {
 
         Emprestavel emprestavel = encontrarEmprestavelPorId(id);
         verificarUnicoEmprestavelNoEstoque();
@@ -314,9 +316,11 @@ public class ItemEmprestavelService implements GerenciarEmprestimo {
      * Verifica a disponibilidade da instância do item emprestável na biblioteca
      * 
      */
-    public void verificarDisponibilidadeParaEmprestimo() throws Exception {
+    public void verificarDisponibilidadeParaEmprestimo() throws ItemIndisponivelException {
+
         if(this.getEmprestimo().getStatusEmprestimo() == StatusEmprestimo.EMPRESTADO)
-            throw new Exception("Este item já está emprestado!");
+                throw new ItemIndisponivelException("Este item já está emprestado!");
+
     }
 
 
@@ -325,7 +329,7 @@ public class ItemEmprestavelService implements GerenciarEmprestimo {
      * 
      * @param id
      */
-   public Emprestavel encontrarEmprestavelPorId(int id) throws Exception {
+   public Emprestavel encontrarEmprestavelPorId(int id) throws ItemNaoEmprestavelException {
     Optional<Emprestavel> emprestavelOptional = biblioteca.getEstoque().getItens()
             .stream()
             .filter(x -> x.getId() == id)
@@ -336,7 +340,7 @@ public class ItemEmprestavelService implements GerenciarEmprestimo {
     Emprestavel emprestavel = emprestavelOptional.orElse(null);
 
     if (emprestavel == null) {
-        throw new Exception("O item não é emprestável!");
+        throw new ItemNaoEmprestavelException("O item não é emprestável!");
     }
 
     return emprestavel;
@@ -348,7 +352,7 @@ public class ItemEmprestavelService implements GerenciarEmprestimo {
      * Verifica se só tem um item disponível no estoque da biblioteca
      * @throws Exception
      */
-    public void verificarUnicoEmprestavelNoEstoque() throws Exception {
+    public void verificarUnicoEmprestavelNoEstoque() throws ItemIndisponivelException {
 
         long emprestaveisEmEstoque = this.getBiblioteca().getEstoque().getItens()
                 .stream()
@@ -357,7 +361,7 @@ public class ItemEmprestavelService implements GerenciarEmprestimo {
                 .count();
 
         if(emprestaveisEmEstoque == 1)
-            throw new Exception("Não pode fazer empréstimo, pois só tem 1 item na biblioteca que não foi emprestado");
+            throw new ItemIndisponivelException("Não pode fazer empréstimo, pois só tem 1 item na biblioteca que não foi emprestado");
 
     }
 
@@ -368,17 +372,18 @@ public class ItemEmprestavelService implements GerenciarEmprestimo {
      * @param usuario
      * @throws Exception
      */
-    public void devolver(int id, Usuario usuario) throws Exception {
+    public void devolver(int id, Usuario usuario) throws ItemIndisponivelException, DevolucaoDoEmprestimoException,
+            ItemNaoEmprestavelException {
 
         Emprestavel emprestavel = usuario.acharEmprestavelPorId(id);
 
         Emprestavel emprestavelNoEstoque = this.encontrarEmprestavelPorId(id);
 
         if(emprestavel != emprestavelNoEstoque)
-            throw new Exception("O item informado não existe!");
+            throw new ItemIndisponivelException("O item informado não existe!");
 
         if(emprestavelNoEstoque.getStatusEmprestimo() != StatusEmprestimo.EMPRESTADO)
-            throw new Exception("O item informado já está disponível");
+            throw new DevolucaoDoEmprestimoException("O item informado já está disponível");
 
         emprestavelNoEstoque.setStatusEmprestimo(StatusEmprestimo.DISPONIVEL);
         emprestavelNoEstoque.setDataEmprestimo(null);

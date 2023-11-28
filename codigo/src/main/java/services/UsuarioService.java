@@ -1,6 +1,7 @@
 package main.java.services;
 
 import main.java.enums.Perfil;
+import main.java.exceptions.UsuarioAutenticadoException;
 import main.java.models.Biblioteca;
 import main.java.models.Usuario;
 
@@ -99,7 +100,7 @@ public class UsuarioService {
      * @return usuario
      * @throws Exception lanca excecao caso o usuario nao esteja cadastrado
      */
-    public Usuario verificarSenhaEmail(String senha, String email) throws Exception {
+    public Usuario verificarSenhaEmail(String senha, String email) throws UsuarioAutenticadoException {
         Usuario u = null;
         for (Usuario usuario : biblioteca.getUsuarios()) {
             if (usuario.getSenha().equals(senha) && usuario.getEmail().equals(email)) {
@@ -109,7 +110,7 @@ public class UsuarioService {
         }
 
         if (u == null)
-            throw new Exception("Usuário não existe!");
+            throw new UsuarioAutenticadoException("Usuário não existe!");
 
         return u;
     }
