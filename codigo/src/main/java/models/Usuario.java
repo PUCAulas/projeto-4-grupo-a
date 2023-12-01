@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class Usuario {
-    
+
     private static int PROX_ID = 0;
     private final int QTD_MAX_ITENS_EMPRESTADOS = 3;
     private int id;
@@ -26,11 +26,6 @@ public class Usuario {
     private Perfil perfil;
 
 
-    public List<Emprestavel> getItensEmprestados() {
-        return emprestaveis;
-    }
-    
-
     /**
      * Construtor padrao de usuario
      */
@@ -38,6 +33,7 @@ public class Usuario {
         this.id = PROX_ID++;
         emprestaveis = new ArrayList<>();
     }
+
 
     /**
      * Construtor padrao de usuario, com senha, email e data de nascimento
@@ -51,6 +47,10 @@ public class Usuario {
         this.senha = senha;
         this.email = email;
         this.dataNascimento = dataNascimento;
+    }
+
+    public List<Emprestavel> getItensEmprestados() {
+        return emprestaveis;
     }
 
     public int getId() {
@@ -157,18 +157,18 @@ public class Usuario {
 
     /**
      * Verifica se o limite de itens emprestados foi atingido
-     * 
+     *
      * @throws Exception
      */
 
     public void verificarLimiteParaEmprestimo() throws EmprestimoLimiteException {
-        if(this.getQtdItensEmprestadosAtualmente() == this.getQTD_MAX_ITENS_EMPRESTADOS())
+        if (this.getQtdItensEmprestadosAtualmente() == this.getQTD_MAX_ITENS_EMPRESTADOS())
             throw new EmprestimoLimiteException("O limite de itens emprestados por vez é de 3!");
     }
 
     /**
      * Pesquisa um item emprestavel pelo id
-     * 
+     *
      * @param id id do item emprestavel
      * @return item emprestavel
      * @throws Exception
@@ -182,7 +182,7 @@ public class Usuario {
             }
         }
 
-        if(itemEmprestavel == null)
+        if (itemEmprestavel == null)
             throw new ItemIndisponivelException("Item emprestável na lista do usuário não encontrado!");
 
 
@@ -191,7 +191,7 @@ public class Usuario {
 
     /**
      * Verifica o item que esta em atraso
-     * 
+     *
      * @throws Exception
      */
     public void emprestavelEmAtrasoDoUsuario() throws DevolucaoDoEmprestimoException {
@@ -209,13 +209,13 @@ public class Usuario {
 
     /**
      * Verifica se a devolucao esta em atraso
-     * 
+     *
      * @param itemEmprestavel item de referencia
      * @return verdadeiro se esta atrasado
      */
     public boolean devolucaoEmAtraso(Emprestavel itemEmprestavel) {
-        
-        if(itemEmprestavel.getDataEmprestimo() != null) {
+
+        if (itemEmprestavel.getDataEmprestimo() != null) {
             return LocalDate.now().isAfter(itemEmprestavel.getDataEmprestimo().plusDays(10));
         } else {
             return false;
