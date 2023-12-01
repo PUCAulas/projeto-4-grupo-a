@@ -11,13 +11,14 @@ import java.util.*;
 
 public class Biblioteca implements Relatorio {
 
+    private static Biblioteca INSTANCE;
     private List<Usuario> usuarios;
     private Estoque estoque;
 
     /**
      * Construtor padrao da biblioteca
      */
-    public Biblioteca() {
+    private Biblioteca() {
         this.usuarios = new ArrayList<>();
     }
 
@@ -26,9 +27,15 @@ public class Biblioteca implements Relatorio {
      *
      * @param estoque obj estoque
      */
-    public Biblioteca(Estoque estoque) {
+    private Biblioteca(Estoque estoque) {
         this();
         this.estoque = estoque;
+    }
+
+    public static Biblioteca getINSTANCE() {
+        if (INSTANCE == null)
+            INSTANCE = new Biblioteca();
+        return INSTANCE;
     }
 
     public List<Usuario> getUsuarios() {
