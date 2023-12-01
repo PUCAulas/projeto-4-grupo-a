@@ -3,6 +3,9 @@ package main.java.utils;
 import main.java.enums.Perfil;
 import main.java.enums.StatusClassificacao;
 import main.java.enums.StatusEmprestimo;
+import main.java.factoryMethods.FabricaCD;
+import main.java.factoryMethods.FabricaDVD;
+import main.java.factoryMethods.FabricaLivro;
 import main.java.models.Biblioteca;
 import main.java.models.Estoque;
 import main.java.models.Usuario;
@@ -35,7 +38,8 @@ public class ObjectFactoryUtil {
      */
     public static Biblioteca construirBiblioteca() {
         Estoque estoque = new Estoque();
-        Biblioteca biblioteca = new Biblioteca(estoque);
+        Biblioteca biblioteca = Biblioteca.getINSTANCE();
+        Biblioteca.getINSTANCE().setEstoque(estoque);
         return biblioteca;
     }
 
@@ -197,7 +201,7 @@ public class ObjectFactoryUtil {
      */
     public static void generateDataBase(Biblioteca biblioteca) {
 
-        Estoque estoque = biblioteca.getEstoque();
+        Estoque estoque = Biblioteca.getINSTANCE().getEstoque();
         List<Revista> revistas = generateRevistas();
         List<Tese> teses = generateTeses();
         List<CD> cds = generateCDs();
@@ -233,8 +237,10 @@ public class ObjectFactoryUtil {
                         "Livro sobre principes" }
         };
 
+        FabricaLivro fabricaLivro = new FabricaLivro();
+
         Arrays.stream(livrosInfo).toList().forEach(livro -> {
-            Livro l = new Livro();
+            Livro l = (Livro) fabricaLivro.criarEmprestavel();
             l.setTitulo((String) livro[0]);
             l.setDataPublicacao((LocalDate) livro[1]);
             l.setStatusClassificacao((StatusClassificacao) livro[2]);
@@ -272,8 +278,10 @@ public class ObjectFactoryUtil {
                         "Godjira", Duration.ofMinutes(45), new ArrayList<>(Arrays.asList("Faixa 01", "Faixa 02")) }
         };
 
+        FabricaCD fabricaCD = new FabricaCD();
+
         Arrays.stream(dvdInfo).toList().forEach(cd -> {
-            CD c = new CD();
+            CD c = (CD) fabricaCD.criarEmprestavel();
             c.setTitulo((String) cd[0]);
             c.setDataPublicacao((LocalDate) cd[1]);
             c.setStatusClassificacao((StatusClassificacao) cd[2]);
@@ -304,8 +312,10 @@ public class ObjectFactoryUtil {
                         "Baleia", Duration.ofMinutes(45), "PT-BR", "Filme de acao e aventura", "Acao e aventura" }
         };
 
+        FabricaDVD fabricaDVD = new FabricaDVD();
+
         Arrays.stream(dvdInfo).toList().forEach(dvd -> {
-            DVD d = new DVD();
+            DVD d = (DVD) fabricaDVD.criarEmprestavel();
             d.setTitulo((String) dvd[0]);
             d.setDataPublicacao((LocalDate) dvd[1]);
             d.setStatusClassificacao((StatusClassificacao) dvd[2]);

@@ -31,7 +31,7 @@ public class BibliotecaTest {
     @BeforeEach
     void setup() {
         estoque = new Estoque();
-        biblioteca = new Biblioteca();
+        biblioteca = Biblioteca.getINSTANCE();
         emprestavel.setTitulo("Don quixote");
         emprestavel.setDataPublicacao(LocalDate.of(1605, 1, 1));
         emprestavel.setStatusClassificacao(StatusClassificacao.MAIOR_DE_16);
