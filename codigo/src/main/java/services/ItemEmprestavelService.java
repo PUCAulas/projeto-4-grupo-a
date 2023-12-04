@@ -8,7 +8,6 @@ import main.java.models.Biblioteca;
 import main.java.models.Estoque;
 import main.java.models.Usuario;
 import main.java.models.itens.*;
-import main.java.userAdapter.UsuarioAdaptor;
 
 import java.time.Duration;
 import java.time.LocalDate;

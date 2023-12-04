@@ -1,4 +1,4 @@
-package main.java.userAdapter;
+package main.java.models;
 
 import main.java.models.Usuario;
 
