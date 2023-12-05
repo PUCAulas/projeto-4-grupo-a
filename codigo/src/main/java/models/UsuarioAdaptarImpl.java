@@ -1,45 +1,44 @@
 package main.java.models;
 
+
+import main.java.enums.AreaCursoSuperior;
 import main.java.enums.CategoriaInteresse;
+import main.java.enums.FiltroPesquisa;
 import main.java.interfaces.UsuarioAdapter;
 import main.java.interfaces.UsuarioSetterOperations;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 public class UsuarioAdaptarImpl implements UsuarioAdapter {
 
     private Usuario usuario;
-    private Function<Usuario, String> obterCurso;
-    private Function<Usuario, List<String>> obterCategoriasDeInteresse;
+    private Function<Usuario, AreaCursoSuperior> obterCurso;
+
+    private Map<Usuario, Map<FiltroPesquisa, Map<CategoriaInteresse, List<String>>>> mapaDeInteresse;
+
 
     private UsuarioSetterOperations<Usuario, Void> definirCurso; // para adicionar a lista
     private UsuarioSetterOperations<Usuario, Void> definirCategoriasDeInteresse;
 
 
 
-    public UsuarioAdaptarImpl(
-            Usuario usuario,
-            Function<Usuario, String> obterCurso,
-            Function<Usuario, List<String>> obterCategoriasDeInteresse,
-            UsuarioSetterOperations<Usuario, Void> definirCurso,
-            UsuarioSetterOperations<Usuario, Void> definirCategoriasDeInteresse
-    ) {
+    public UsuarioAdaptarImpl(Usuario usuario) {
         this.usuario = usuario;
-        this.obterCurso = obterCurso;
-        this.obterCategoriasDeInteresse = obterCategoriasDeInteresse;
-        this.definirCurso = definirCurso;
-        this.definirCategoriasDeInteresse = definirCategoriasDeInteresse;
+        this.mapaDeInteresse = new HashMap<>();
+        this.mapaDeInteresse.put(usuario, new HashMap<>());
     }
 
     @Override
-    public String getCurso() {
+    public AreaCursoSuperior getCurso() {
         return obterCurso.apply(usuario);
     }
 
     @Override
     public List<String> getCategoriaInteresse() {
-        return obterCategoriasDeInteresse.apply(usuario);
+        return null;
     }
 
     @Override
@@ -55,12 +54,12 @@ public class UsuarioAdaptarImpl implements UsuarioAdapter {
 
 
     @Override
-    public void addCategoriaInteresse(CategoriaInteresse categoriaInteresse) {
+    public void addCategoriaInteresse(FiltroPesquisa categoriaInteresse) {
 
     }
 
     @Override
-    public void removeCategoriaInteresse(CategoriaInteresse categoriaInteresse) {
+    public void removeCategoriaInteresse(FiltroPesquisa categoriaInteresse) {
 
     }
 

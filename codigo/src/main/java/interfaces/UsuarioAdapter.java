@@ -1,12 +1,13 @@
 package main.java.interfaces;
 
-import main.java.enums.CategoriaInteresse;
+import main.java.enums.AreaCursoSuperior;
+import main.java.enums.FiltroPesquisa;
 
 import java.util.List;
 
 public interface UsuarioAdapter {
 
-    String getCurso();
+    AreaCursoSuperior getCurso();
 
     void setCurso(String curso);
 
@@ -14,8 +15,8 @@ public interface UsuarioAdapter {
 
     void setCategoriaInteresse(List<String> categoriaInteresse);
 
-    void addCategoriaInteresse(CategoriaInteresse categoriaInteresse);
+    void addCategoriaInteresse(FiltroPesquisa categoriaInteresse);
 
-    void removeCategoriaInteresse(CategoriaInteresse categoriaInteresse);
+    void removeCategoriaInteresse(FiltroPesquisa categoriaInteresse);
 
 }

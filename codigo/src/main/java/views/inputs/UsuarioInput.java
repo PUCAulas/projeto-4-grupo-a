@@ -195,6 +195,15 @@ public class UsuarioInput {
         }
     }
 
+
+    public static void obterDadosParaSugestao(UsuarioService usuarioService) throws UsuarioAutenticadoException {
+        Usuario usuario = obterUsuarioCadastrado((usuarioService));
+        System.out.println("Baseado em seus interesses, podemos fazer as seguintes sugestões de itens:");
+        System.out.println("\n");
+        // Chama função de sugestão
+    }
+
+
     /**
      * recebe dados de login de usuario
      *

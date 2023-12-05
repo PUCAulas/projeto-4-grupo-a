@@ -1,17 +1,26 @@
 package main.java.services;
 
+import main.java.enums.AreaCursoSuperior;
+import main.java.enums.CategoriaInteresse;
+import main.java.enums.FiltroPesquisa;
 import main.java.enums.Perfil;
 import main.java.exceptions.UsuarioAutenticadoException;
 import main.java.models.Biblioteca;
 import main.java.models.Usuario;
+import main.java.models.UsuarioAdaptarImpl;
+import main.java.models.itens.DVD;
+import main.java.models.itens.Item;
+import main.java.models.itens.Livro;
 
 import java.time.LocalDate;
+import java.util.*;
 
 
 public class UsuarioService {
 
     private Biblioteca biblioteca;
     private Usuario usuario;
+
     
 
     /**
@@ -168,6 +177,63 @@ public class UsuarioService {
         }
 
         return u;
+    }
+
+
+    public void fazerSugestao(UsuarioService usuarioService) {
+        Set<Item> sugestoes = new HashSet<>();
+        // Considerar categorias de interesse do usuário
+        // Considerar o histórico do usuário com seu atributo "emprestaveis"
+        // Considerar a área de curso do usuário - FEITO
+
+        // Recomendar no mínimo 3 itens
+
+        // Recomendação com base no curso:
+        sugestoes = addSugerirPeloCurso(new UsuarioAdaptarImpl(usuarioService.getUsuario()));
+
+
+
+
+    }
+
+
+    public Set<Item> addSugerirPeloCurso(UsuarioAdaptarImpl usuarioAdaptar) {
+        AreaCursoSuperior areaCursoSuperior = usuarioAdaptar.getCurso();
+        Set<Item> sugestoes = new HashSet<>();
+        List<String> generosInteresse;
+        List<Item> itens = biblioteca.getEstoque().getItens();
+
+        if(areaCursoSuperior == AreaCursoSuperior.CIENCIAS_EXATAS) {
+            generosInteresse = Arrays.asList("Ficção Científica", "Divulgação Científica", "Matemática e" +
+                    " Lógica", "História da Ciência", "Biografia de Cientista", "Documentário Científico");
+            for (Item item : itens) {
+                if ((item instanceof Livro livro && generosInteresse.contains(livro.getGenero())) ||
+                        (item instanceof DVD dvd && generosInteresse.contains(dvd.getGenero()))) {
+                    sugestoes.add(item);
+                }
+            }
+        } else if(areaCursoSuperior == AreaCursoSuperior.CIENCIAS_SOCIAIS) {
+            generosInteresse = Arrays.asList("Romance", "Ficção", "Policial", "Biografia","Pol" +
+                    "ítica", "Filosofia", "Sociologia", "Psicologia", "Drama", "Suspense");
+
+            for (Item item : itens) {
+                if ((item instanceof Livro livro && generosInteresse.contains(livro.getGenero())) ||
+                        (item instanceof DVD dvd && generosInteresse.contains(dvd.getGenero()))) {
+                    sugestoes.add(item);
+                }
+            }
+        } else {
+            generosInteresse = Arrays.asList("Drama Médico", "Biografia", "Saúde", "Ética Médica","Biologia",
+                    "Corpo Humano");
+
+            for (Item item : itens) {
+                if ((item instanceof Livro livro && generosInteresse.contains(livro.getGenero())) ||
+                        (item instanceof DVD dvd && generosInteresse.contains(dvd.getGenero()))) {
+                    sugestoes.add(item);
+                }
+            }
+        }
+        return sugestoes;
     }
 
     

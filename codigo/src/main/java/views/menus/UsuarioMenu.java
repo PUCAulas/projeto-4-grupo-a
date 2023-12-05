@@ -4,6 +4,7 @@ import java.util.List;
 
 import main.java.exceptions.*;
 import main.java.models.Biblioteca;
+import main.java.models.Usuario;
 import main.java.models.itens.Emprestavel;
 import main.java.services.UsuarioService;
 import main.java.utils.InputScannerUtil;
@@ -26,13 +27,14 @@ public class UsuarioMenu {
             System.out.println("4. pesquisar itens da biblioteca");
             System.out.println("5. Pegar emprestado");
             System.out.println("6. Devolver");
-            System.out.println("7. Voltar");
+            System.out.println("7. Sugestão de itens");
+            System.out.println("8. Voltar");
             System.out.print("\nOpção: ");
 
             int escolha = InputScannerUtil.scanner.nextInt();
             InputScannerUtil.scanner.nextLine();
 
-            if (escolha == 7) {
+            if (escolha == 8) {
                 System.out.println("Voltando ao menu principal...\n");
                 break;
             }
@@ -56,7 +58,8 @@ public class UsuarioMenu {
                 case 6:
                     devolverEmprestimo(usuarioService);
                     break;
-
+                case 7:
+                    //UsuarioInput.obterDadosParaSugestao(usuarioService);
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }
@@ -111,6 +114,24 @@ public class UsuarioMenu {
             System.out.println("Erro: " + e.getMessage());
             System.out.println();
         }
+    }
+
+
+
+    public static void obterDadosParaCategoriaInterese(UsuarioService usuarioService) throws UsuarioAutenticadoException {
+
+        Usuario usuario = UsuarioInput.obterUsuarioCadastrado((usuarioService));
+
+        System.out.println("Escolha um ou mais itens de seu interesse, por ordem de prioridade:");
+
+        System.out.println("CD");
+        System.out.println("Livro");
+        System.out.println("Item");
+        System.out.println("Revista");
+        System.out.println("Tese");
+
+
+
     }
 
 
