@@ -231,26 +231,37 @@ public class UsuarioService {
         return sugestoes;
     }
 
-    public Set<Item> addSugerirPeloHistoricoItems() {
+    public Set<Item> addSugerirPorInteresse(UsuarioAdaptarImpl usuarioAdaptar) {
+        Set<Item> sugestoes = new HashSet<>();
+        List<String> categoriaInteresse = usuarioAdaptar.getCategoriaInteresse();
+        List<Item> itens = biblioteca.getEstoque().getItens();
+
+        for (Item item : itens) {
+            if ((item instanceof Livro livro && categoriaInteresse.contains("livro")) ||
+                    (item instanceof DVD dvd && categoriaInteresse.contains("dvd"))){
+                sugestoes.add(item);
+            }
+        }
+        
+        return sugestoes;
+    }
+
+    public Set<Item> addSugerirPeloHistorico() {
         Set<Item> sugestoes = new HashSet<>();
         List<Emprestavel> historicoItems = usuario.getEmprestimos();
 
         for (Item item : historicoItems) {
             if (item instanceof Livro livro) {
                 sugestoes.add(item);
-            }
-            else if (item instanceof DVD dvd) {
+            } else if (item instanceof DVD dvd) {
                 sugestoes.add(item);
-            }
-            else if (item instanceof CD cd) {
+            } else if (item instanceof CD cd) {
                 sugestoes.add(item);
             }
         }
 
         return sugestoes;
     }
-
-    
 
     public Biblioteca getBiblioteca() {
 
