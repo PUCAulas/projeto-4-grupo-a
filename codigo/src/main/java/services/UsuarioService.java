@@ -8,20 +8,19 @@ import main.java.exceptions.UsuarioAutenticadoException;
 import main.java.models.Biblioteca;
 import main.java.models.Usuario;
 import main.java.models.UsuarioAdaptarImpl;
+import main.java.models.itens.CD;
 import main.java.models.itens.DVD;
+import main.java.models.itens.Emprestavel;
 import main.java.models.itens.Item;
 import main.java.models.itens.Livro;
 
 import java.time.LocalDate;
 import java.util.*;
 
-
 public class UsuarioService {
 
     private Biblioteca biblioteca;
     private Usuario usuario;
-
-    
 
     /**
      * Construtor padrao de UsuarioService, com Biblioteca
@@ -43,7 +42,8 @@ public class UsuarioService {
      * @param perfil         perfil do usuario
      * @throws Exception lanca excecao caso o email inserido ja exista
      */
-    public void criar(String nome, String email, String senha, LocalDate dataNascimento, Perfil perfil) throws Exception {
+    public void criar(String nome, String email, String senha, LocalDate dataNascimento, Perfil perfil)
+            throws Exception {
 
         verificarEmailUnico(email);
 
@@ -80,7 +80,6 @@ public class UsuarioService {
      * @param dataNascimento data de nascimento do usuario
      */
     public void atualizar(String name, String email, String senha, LocalDate dataNascimento) {
-
 
         this.getBiblioteca().removeUsuario(this.getUsuario());
         this.usuario.setNome(name);
@@ -156,6 +155,7 @@ public class UsuarioService {
 
     /**
      * Verifica se usuario e admin
+     * 
      * @param senha senha do usuario
      * @param email email do usuario
      * @return usuario
@@ -179,7 +179,6 @@ public class UsuarioService {
         return u;
     }
 
-
     public void fazerSugestao(UsuarioService usuarioService) {
         Set<Item> sugestoes = new HashSet<>();
         // Considerar categorias de interesse do usuário
@@ -191,11 +190,7 @@ public class UsuarioService {
         // Recomendação com base no curso:
         sugestoes = addSugerirPeloCurso(new UsuarioAdaptarImpl(usuarioService.getUsuario()));
 
-
-
-
     }
-
 
     public Set<Item> addSugerirPeloCurso(UsuarioAdaptarImpl usuarioAdaptar) {
         AreaCursoSuperior areaCursoSuperior = usuarioAdaptar.getCurso();
@@ -203,7 +198,7 @@ public class UsuarioService {
         List<String> generosInteresse;
         List<Item> itens = biblioteca.getEstoque().getItens();
 
-        if(areaCursoSuperior == AreaCursoSuperior.CIENCIAS_EXATAS) {
+        if (areaCursoSuperior == AreaCursoSuperior.CIENCIAS_EXATAS) {
             generosInteresse = Arrays.asList("Ficção Científica", "Divulgação Científica", "Matemática e" +
                     " Lógica", "História da Ciência", "Biografia de Cientista", "Documentário Científico");
             for (Item item : itens) {
@@ -212,8 +207,8 @@ public class UsuarioService {
                     sugestoes.add(item);
                 }
             }
-        } else if(areaCursoSuperior == AreaCursoSuperior.CIENCIAS_SOCIAIS) {
-            generosInteresse = Arrays.asList("Romance", "Ficção", "Policial", "Biografia","Pol" +
+        } else if (areaCursoSuperior == AreaCursoSuperior.CIENCIAS_SOCIAIS) {
+            generosInteresse = Arrays.asList("Romance", "Ficção", "Policial", "Biografia", "Pol" +
                     "ítica", "Filosofia", "Sociologia", "Psicologia", "Drama", "Suspense");
 
             for (Item item : itens) {
@@ -223,7 +218,7 @@ public class UsuarioService {
                 }
             }
         } else {
-            generosInteresse = Arrays.asList("Drama Médico", "Biografia", "Saúde", "Ética Médica","Biologia",
+            generosInteresse = Arrays.asList("Drama Médico", "Biografia", "Saúde", "Ética Médica", "Biologia",
                     "Corpo Humano");
 
             for (Item item : itens) {
@@ -233,6 +228,25 @@ public class UsuarioService {
                 }
             }
         }
+        return sugestoes;
+    }
+
+    public Set<Item> addSugerirPeloHistoricoItems() {
+        Set<Item> sugestoes = new HashSet<>();
+        List<Emprestavel> historicoItems = usuario.getEmprestimos();
+
+        for (Item item : historicoItems) {
+            if (item instanceof Livro livro) {
+                sugestoes.add(item);
+            }
+            else if (item instanceof DVD dvd) {
+                sugestoes.add(item);
+            }
+            else if (item instanceof CD cd) {
+                sugestoes.add(item);
+            }
+        }
+
         return sugestoes;
     }
 
