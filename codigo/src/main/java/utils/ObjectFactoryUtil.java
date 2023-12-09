@@ -234,7 +234,95 @@ public class ObjectFactoryUtil {
                         "Ciencia", "Livro sobre aracnideos" },
                 { "Little principe", LocalDate.of(2002, 2, 2), StatusClassificacao.MAIOR_DE_18,
                         StatusEmprestimo.DISPONIVEL, "Jorge", 300, "Editora EUA", "n.15", "vol.01", "PT-BR", "Ciencia",
-                        "Livro sobre principes" }
+                        "Livro sobre principes" },
+                { "Aventuras em Marte", LocalDate.of(2010, 8, 15), StatusClassificacao.LIVRE,
+                        StatusEmprestimo.DISPONIVEL, "Maria", 150, "Editora Mundo", "n.05", "vol.01", "PT-BR",
+                        "Ficção Científica", "Livro de aventuras em Marte" },
+                { "O Último Romance", LocalDate.of(2015, 4, 10), StatusClassificacao.MAIOR_DE_16,
+                        StatusEmprestimo.DISPONIVEL, "Antonio", 250, "Editora Romance", "n.03", "vol.01", "PT-BR",
+                        "Romance", "Uma história emocionante de amor" },
+                { "A Vida do Cientista", LocalDate.of(2018, 6, 20), StatusClassificacao.LIVRE,
+                        StatusEmprestimo.DISPONIVEL, "Lucia", 180, "Editora Ciência", "n.08", "vol.01", "PT-BR",
+                        "Biografia de Cientista", "Biografia do cientista renomado" },
+                { "O Universo em Nossas Mãos", LocalDate.of(2012, 3, 5), StatusClassificacao.LIVRE,
+                        StatusEmprestimo.DISPONIVEL, "Camila", 180, "Editora Astronomia", "n.07", "vol.01", "PT-BR",
+                        "Divulgação Científica", "Exploração do universo e astronomia moderna" },
+
+                { "A Revolução dos Sentidos", LocalDate.of(2019, 9, 10), StatusClassificacao.MAIOR_DE_18,
+                        StatusEmprestimo.DISPONIVEL, "Pedro", 280, "Editora Sensações", "n.02", "vol.01", "PT-BR",
+                        "Romance", "Uma jornada intensa pelos sentidos humanos" },
+
+                { "Psicologia da Felicidade", LocalDate.of(2015, 6, 15), StatusClassificacao.LIVRE,
+                        StatusEmprestimo.DISPONIVEL, "Larissa", 200, "Editora Bem-Estar", "n.10", "vol.01", "PT-BR",
+                        "Psicologia", "Descubra o caminho para uma vida mais feliz" },
+
+                { "Matemática para Todos", LocalDate.of(2010, 12, 1), StatusClassificacao.LIVRE,
+                        StatusEmprestimo.DISPONIVEL, "Eduardo", 150, "Editora Números", "n.04", "vol.01", "PT-BR",
+                        "Matemática e Lógica", "Desmistificando conceitos matemáticos" },
+
+                { "A Arte da Política", LocalDate.of(2018, 5, 20), StatusClassificacao.MAIOR_DE_16,
+                        StatusEmprestimo.DISPONIVEL, "Ana", 220, "Editora Política", "n.09", "vol.01", "PT-BR",
+                        "Política", "Reflexões sobre a arte e ciência da política" },
+
+                { "Saúde Integral", LocalDate.of(2016, 7, 8), StatusClassificacao.LIVRE,
+                        StatusEmprestimo.DISPONIVEL, "Rafael", 190, "Editora Saúde", "n.06", "vol.01", "PT-BR",
+                        "Saúde", "Abordagem holística para o bem-estar" },
+                { "Missão Perigosa", LocalDate.of(2014, 10, 5), StatusClassificacao.MAIOR_DE_16,
+                        StatusEmprestimo.DISPONIVEL, "Mariana", 180, "Editora Ação", "n.12", "vol.01", "PT-BR",
+                        "Ação", "Uma missão repleta de adrenalina e perigos" },
+
+                { "O Tesouro do Explorador", LocalDate.of(2011, 6, 12), StatusClassificacao.LIVRE,
+                        StatusEmprestimo.DISPONIVEL, "Carlos", 210, "Editora Aventura", "n.14", "vol.01", "PT-BR",
+                        "Aventura", "Uma jornada emocionante em busca de um tesouro misterioso" },
+
+                { "Paixão Proibida", LocalDate.of(2017, 4, 8), StatusClassificacao.MAIOR_DE_18,
+                        StatusEmprestimo.DISPONIVEL, "Isabela", 240, "Editora Romance Sensual", "n.04", "vol.02", "PT-BR",
+                        "Erótico", "Uma história de paixão intensa e proibida" },
+
+                { "A Mansão Assombrada", LocalDate.of(2013, 9, 15), StatusClassificacao.MAIOR_DE_18,
+                        StatusEmprestimo.DISPONIVEL, "Gabriel", 190, "Editora Arrepio", "n.08", "vol.01", "PT-BR",
+                        "Terror", "Um thriller arrepiante ambientado em uma mansão assombrada" },
+
+                { "Segredos Obscuros", LocalDate.of(2016, 3, 20), StatusClassificacao.MAIOR_DE_16,
+                        StatusEmprestimo.DISPONIVEL, "Larissa", 200, "Editora Mistério", "n.09", "vol.01", "PT-BR",
+                        "Suspense", "Um mistério envolvente com segredos ocultos" },
+                { "Cem Anos de Solidão", LocalDate.of(1967, 5, 30), StatusClassificacao.MAIOR_DE_18,
+                        StatusEmprestimo.DISPONIVEL, "Gabriel García Márquez", 432, "Editora Sudamericana", "1ª edição", "Volume único", "PT-BR",
+                        "Realismo Mágico", "Um épico que narra a história da família Buendía na fictícia Macondo." },
+
+                { "O Código Da Vinci", LocalDate.of(2003, 3, 18), StatusClassificacao.MAIOR_DE_16,
+                        StatusEmprestimo.DISPONIVEL, "Dan Brown", 489, "Editora Sextante", "1ª edição", "Volume único", "PT-BR",
+                        "Mistério, Suspense", "Robert Langdon é chamado para desvendar um mistério envolvendo símbolos e segredos." },
+                { "Orgulho e Preconceito", LocalDate.of(1813, 1, 28), StatusClassificacao.LIVRE,
+                        StatusEmprestimo.DISPONIVEL, "Jane Austen", 279, "Editora Thomas Egerton", "1ª edição", "Volume único", "EN",
+                        "Romance Clássico", "A história do romance entre Elizabeth Bennet e o Sr. Darcy no século XIX na Inglaterra." },
+
+                { "1984", LocalDate.of(1949, 6, 8), StatusClassificacao.MAIOR_DE_16,
+                        StatusEmprestimo.DISPONIVEL, "George Orwell", 336, "Editora Secker & Warburg", "1ª edição", "Volume único", "EN",
+                        "Ficção Distópica", "Uma visão sombria de um futuro totalitário, onde o Estado controla tudo." },
+
+                { "Dom Quixote", LocalDate.of(1605, 1, 16), StatusClassificacao.LIVRE,
+                        StatusEmprestimo.DISPONIVEL, "Miguel de Cervantes", 863, "Editora Francisco de Robles", "1ª edição", "Volume único", "ES",
+                        "Romance de Cavalaria", "As aventuras de um fidalgo enlouquecido que lê muitos romances de cavalaria." },
+                { "O Iluminado", LocalDate.of(1977, 1, 28), StatusClassificacao.MAIOR_DE_18,
+                        StatusEmprestimo.DISPONIVEL, "Stephen King", 447, "Editora Doubleday", "1ª edição", "Volume único", "EN",
+                        "Horror, Suspense", "A história de uma família que se muda para um hotel isolado, onde o pai começa a enlouquecer." },
+
+                { "Carrie, a Estranha", LocalDate.of(1974, 4, 5), StatusClassificacao.MAIOR_DE_16,
+                        StatusEmprestimo.DISPONIVEL, "Stephen King", 199, "Editora Doubleday", "1ª edição", "Volume único", "EN",
+                        "Horror, Sobrenatural", "A história de uma adolescente com poderes telecinéticos e sua vingança contra os colegas de escola." },
+
+                { "It", LocalDate.of(1986, 9, 15), StatusClassificacao.MAIOR_DE_18,
+                        StatusEmprestimo.DISPONIVEL, "Stephen King", 1104, "Editora Viking Penguin", "1ª edição", "Volume único", "EN",
+                        "Horror, Fantasia", "A história de um grupo de crianças enfrentando uma entidade maligna que assume a forma de seus medos." },
+
+                { "A Dança da Morte", LocalDate.of(1978, 10, 1), StatusClassificacao.MAIOR_DE_18,
+                        StatusEmprestimo.DISPONIVEL, "Stephen King", 1424, "Editora Doubleday", "1ª edição", "Volume único", "EN",
+                        "Horror, Pós-Apocalíptico", "Um épico pós-apocalíptico que segue os sobreviventes de uma praga mortal." },
+
+                { "Cemitério Maldito", LocalDate.of(1983, 11, 14), StatusClassificacao.MAIOR_DE_16,
+                        StatusEmprestimo.DISPONIVEL, "Stephen King", 424, "Editora Doubleday", "1ª edição", "Volume único", "EN",
+                        "Horror Sobrenatural", "Um pai faz escolhas perturbadoras para lidar com a morte de sua filha de quatro anos." }
         };
 
         FabricaLivro fabricaLivro = new FabricaLivro();
@@ -275,7 +363,51 @@ public class ObjectFactoryUtil {
                         StatusEmprestimo.DISPONIVEL, "Lincoln parque", Duration.ofMinutes(30),
                         new ArrayList<>(Arrays.asList("Faixa 01", "Faixa 02")) },
                 { "Godjira", LocalDate.of(1997, 2, 2), StatusClassificacao.MAIOR_DE_18, StatusEmprestimo.DISPONIVEL,
-                        "Godjira", Duration.ofMinutes(45), new ArrayList<>(Arrays.asList("Faixa 01", "Faixa 02")) }
+                        "Godjira", Duration.ofMinutes(45), new ArrayList<>(Arrays.asList("Faixa 01", "Faixa 02")) },
+                { "Metallica", LocalDate.of(1981, 7, 25), StatusClassificacao.MAIOR_DE_16,
+                        StatusEmprestimo.DISPONIVEL, "Metallica", Duration.ofMinutes(75),
+                        new ArrayList<>(Arrays.asList("Enter Sandman", "Master of Puppets", "Nothing Else Matters")) },
+
+                { "Black Sabbath", LocalDate.of(1968, 2, 13), StatusClassificacao.MAIOR_DE_18,
+                        StatusEmprestimo.DISPONIVEL, "Black Sabbath", Duration.ofMinutes(60),
+                        new ArrayList<>(Arrays.asList("Paranoid", "War Pigs", "Iron Man")) },
+
+                { "Judas Priest", LocalDate.of(1969, 1, 1), StatusClassificacao.MAIOR_DE_18,
+                        StatusEmprestimo.DISPONIVEL, "Judas Priest", Duration.ofMinutes(65),
+                        new ArrayList<>(Arrays.asList("Breaking the Law", "Painkiller", "Electric Eye")) },
+
+                { "Slayer", LocalDate.of(1981, 12, 28), StatusClassificacao.MAIOR_DE_18,
+                        StatusEmprestimo.DISPONIVEL, "Slayer", Duration.ofMinutes(55),
+                        new ArrayList<>(Arrays.asList("Angel of Death", "Raining Blood", "South of Heaven")) },
+
+                { "Iron Maiden", LocalDate.of(1975, 12, 25), StatusClassificacao.MAIOR_DE_16,
+                        StatusEmprestimo.DISPONIVEL, "Iron Maiden", Duration.ofMinutes(70),
+                        new ArrayList<>(Arrays.asList("The Trooper", "Fear of the Dark", "Run to the Hills")) },
+                // Álbuns adicionais de Heavy Metal
+                { "Metallica - Master of Puppets", LocalDate.of(1986, 3, 3), StatusClassificacao.MAIOR_DE_16,
+                        StatusEmprestimo.DISPONIVEL, "Metallica", Duration.ofMinutes(55),
+                        new ArrayList<>(Arrays.asList("Battery", "Master of Puppets", "Welcome Home (Sanitarium)")) },
+
+                { "Iron Maiden - The Number of the Beast", LocalDate.of(1982, 3, 22), StatusClassificacao.MAIOR_DE_16,
+                        StatusEmprestimo.DISPONIVEL, "Iron Maiden", Duration.ofMinutes(44),
+                        new ArrayList<>(Arrays.asList("Run to the Hills", "Hallowed Be Thy Name", "The Number of the Beast")) },
+
+                { "Black Sabbath - Paranoid", LocalDate.of(1970, 9, 18), StatusClassificacao.MAIOR_DE_18,
+                        StatusEmprestimo.DISPONIVEL, "Black Sabbath", Duration.ofMinutes(42),
+                        new ArrayList<>(Arrays.asList("War Pigs", "Iron Man", "Paranoid")) },
+
+                { "Ludwig van Beethoven - Sinfonia No. 5 em Dó Menor, Op. 67", LocalDate.of(1808, 12, 22),
+                        StatusClassificacao.LIVRE, StatusEmprestimo.DISPONIVEL, "Ludwig van Beethoven", Duration.ofMinutes(32),
+                        new ArrayList<>(Arrays.asList("Allegro con brio", "Andante con moto", "Scherzo", "Allegro")) },
+
+                { "Wolfgang Amadeus Mozart - Eine kleine Nachtmusik, K. 525", LocalDate.of(1787, 8, 10),
+                        StatusClassificacao.LIVRE, StatusEmprestimo.DISPONIVEL, "Wolfgang Amadeus Mozart", Duration.ofMinutes(22),
+                        new ArrayList<>(Arrays.asList("Allegro", "Romanze", "Menuetto", "Rondo")) },
+
+                { "Pyotr Ilyich Tchaikovsky - O Quebra-Nozes, Op. 71", LocalDate.of(1892, 12, 17),
+                        StatusClassificacao.LIVRE, StatusEmprestimo.DISPONIVEL, "Pyotr Ilyich Tchaikovsky", Duration.ofMinutes(61),
+                        new ArrayList<>(Arrays.asList("March", "Dance of the Sugar Plum Fairy", "Waltz of the Flowers")) }
+
         };
 
         FabricaCD fabricaCD = new FabricaCD();
@@ -309,7 +441,34 @@ public class ObjectFactoryUtil {
                 { "Ace ventura", LocalDate.of(1997, 2, 2), StatusClassificacao.MAIOR_DE_16, StatusEmprestimo.DISPONIVEL,
                         "Gepeto", Duration.ofMinutes(30), "PT-BR", "Filme de comedia", "Comedia" },
                 { "007", LocalDate.of(2008, 2, 2), StatusClassificacao.MAIOR_DE_18, StatusEmprestimo.DISPONIVEL,
-                        "Baleia", Duration.ofMinutes(45), "PT-BR", "Filme de acao e aventura", "Acao e aventura" }
+                        "Baleia", Duration.ofMinutes(45), "PT-BR", "Filme de acao e aventura", "Acao e aventura" },
+                { "Missão Impossível", LocalDate.of(2000, 8, 15), StatusClassificacao.MAIOR_DE_16,
+                        StatusEmprestimo.DISPONIVEL, "Steven Spielberg", Duration.ofMinutes(120), "PT-BR",
+                        "Uma missão impossível repleta de ação e suspense", "Ação e Suspense" },
+
+                { "O Tesouro Perdido", LocalDate.of(2015, 5, 10), StatusClassificacao.LIVRE,
+                        StatusEmprestimo.DISPONIVEL, "George Lucas", Duration.ofMinutes(90), "PT-BR",
+                        "Uma aventura emocionante em busca de um tesouro perdido", "Aventura" },
+
+                { "Romeu e Julieta", LocalDate.of(1996, 2, 14), StatusClassificacao.MAIOR_DE_18,
+                        StatusEmprestimo.DISPONIVEL, "Baz Luhrmann", Duration.ofMinutes(120), "PT-BR",
+                        "A clássica história de amor recriada de maneira moderna", "Romance" },
+
+                { "50 Tons de Cinza", LocalDate.of(2014, 11, 20), StatusClassificacao.MAIOR_DE_18,
+                        StatusEmprestimo.DISPONIVEL, "Sam Taylor-Johnson", Duration.ofMinutes(110), "PT-BR",
+                        "Uma história erótica envolvente e provocante", "Erótico" },
+
+                { "O Chamado", LocalDate.of(2002, 10, 18), StatusClassificacao.MAIOR_DE_18,
+                        StatusEmprestimo.DISPONIVEL, "Gore Verbinski", Duration.ofMinutes(115), "PT-BR",
+                        "Um filme de terror que te deixará arrepiado", "Terror" },
+
+                { "Ilha do Medo", LocalDate.of(2010, 6, 24), StatusClassificacao.MAIOR_DE_16,
+                        StatusEmprestimo.DISPONIVEL, "Martin Scorsese", Duration.ofMinutes(138), "PT-BR",
+                        "Um thriller psicológico cheio de suspense", "Suspense" },
+
+                { "Interestelar", LocalDate.of(2014, 11, 7), StatusClassificacao.MAIOR_DE_18,
+                        StatusEmprestimo.DISPONIVEL, "Christopher Nolan", Duration.ofMinutes(169), "PT-BR",
+                        "Uma emocionante jornada espacial e ficção científica", "Ficção Científica" },
         };
 
         FabricaDVD fabricaDVD = new FabricaDVD();

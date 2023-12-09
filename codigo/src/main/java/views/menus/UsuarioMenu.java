@@ -1,10 +1,15 @@
 package main.java.views.menus;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import main.java.enums.CategoriaInteresse;
+import main.java.enums.FiltroPesquisa;
 import main.java.exceptions.*;
 import main.java.models.Biblioteca;
 import main.java.models.Usuario;
+import main.java.models.UsuarioAdaptarImpl;
 import main.java.models.itens.Emprestavel;
 import main.java.services.UsuarioService;
 import main.java.utils.InputScannerUtil;
@@ -59,7 +64,8 @@ public class UsuarioMenu {
                     devolverEmprestimo(usuarioService);
                     break;
                 case 7:
-                usuarioService.fazerSugestao(usuarioService);
+                    UsuarioInput.imprimirSugestao(usuarioService);
+                    break;
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }
@@ -77,7 +83,6 @@ public class UsuarioMenu {
             System.out.println(emprestavel);
         }
     }
-
 
 
     public static void pegarEmprestado(UsuarioService usuarioService) {
@@ -118,19 +123,43 @@ public class UsuarioMenu {
 
 
 
-    public static void obterDadosParaCategoriaInterese(UsuarioService usuarioService) throws UsuarioAutenticadoException {
+    public static UsuarioAdaptarImpl menuCategoriaInterese(UsuarioService usuarioService) {
 
-        Usuario usuario = UsuarioInput.obterUsuarioCadastrado((usuarioService));
+        UsuarioAdaptarImpl usuarioAdaptar = new UsuarioAdaptarImpl(usuarioService.getUsuario());
+        UsuarioAdaptarImpl newUsuario = null;
 
-        System.out.println("Escolha um ou mais itens de seu interesse, por ordem de prioridade:");
+        while (true) {
+            System.out.println("Escolha um item de seu interesse ou FIM para sair: ");
+            System.out.println("1 - CD");
+            System.out.println("2 - DVD");
+            System.out.println("3 - Livro");
+            System.out.println("4 - FIM");
+            System.out.print("Escolha: ");
+            int escolha = InputScannerUtil.scanner.nextInt();
+            InputScannerUtil.scanner.nextLine();
 
-        System.out.println("CD");
-        System.out.println("Livro");
-        System.out.println("Item");
-        System.out.println("Revista");
-        System.out.println("Tese");
+            if (escolha == 4) {
+                System.out.println("Voltando ao menu principal...\n");
+                break;
+            }
 
+            switch (escolha) {
+                case 1:
+                    newUsuario = UsuarioInput.infoSugerirCd(usuarioAdaptar);
+                    break;
+                case 2:
+                    newUsuario = UsuarioInput.infoSugerirDvd(usuarioAdaptar);
+                    break;
+                case 3:
+                    newUsuario = UsuarioInput.infoSugerirLivro(usuarioAdaptar);
+                    break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
 
+        }
+
+        return newUsuario;
 
     }
 

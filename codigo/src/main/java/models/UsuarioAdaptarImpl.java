@@ -5,7 +5,6 @@ import main.java.enums.AreaCursoSuperior;
 import main.java.enums.CategoriaInteresse;
 import main.java.enums.FiltroPesquisa;
 import main.java.interfaces.UsuarioAdapter;
-import main.java.interfaces.UsuarioSetterOperations;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,10 +19,6 @@ public class UsuarioAdaptarImpl implements UsuarioAdapter {
     private Map<Usuario, Map<FiltroPesquisa, Map<CategoriaInteresse, List<String>>>> mapaDeInteresse;
 
 
-    private UsuarioSetterOperations<Usuario, Void> definirCurso; // para adicionar a lista
-    private UsuarioSetterOperations<Usuario, Void> definirCategoriasDeInteresse;
-
-
 
     public UsuarioAdaptarImpl(Usuario usuario) {
         this.usuario = usuario;
@@ -36,34 +31,24 @@ public class UsuarioAdaptarImpl implements UsuarioAdapter {
         return obterCurso.apply(usuario);
     }
 
-    @Override
-    public List<String> getCategoriaInteresse() {
-        return null;
-    }
-
-    @Override
-    public void setCurso(String curso) {
-
+    public void setCurso(AreaCursoSuperior novoCurso) {
+        this.obterCurso = usuario -> novoCurso;
     }
 
 
-    @Override
-    public void setCategoriaInteresse(List<String> categoriaInteresse) {
-
+    public Map<Usuario, Map<FiltroPesquisa, Map<CategoriaInteresse, List<String>>>> getMapaDeInteresse() {
+        return mapaDeInteresse;
     }
 
-
-    @Override
-    public void addCategoriaInteresse(FiltroPesquisa categoriaInteresse) {
-
+    public void setMapaDeInteresse(Map<Usuario, Map<FiltroPesquisa, Map<CategoriaInteresse, List<String>>>> mapaDeInteresse) {
+        this.mapaDeInteresse = mapaDeInteresse;
     }
 
-    @Override
-    public void removeCategoriaInteresse(FiltroPesquisa categoriaInteresse) {
-
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-
-
-
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 }

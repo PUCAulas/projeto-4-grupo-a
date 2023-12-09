@@ -1,9 +1,7 @@
 package main.java.services;
 
-import main.java.enums.AreaCursoSuperior;
-import main.java.enums.CategoriaInteresse;
-import main.java.enums.FiltroPesquisa;
-import main.java.enums.Perfil;
+import main.java.enums.*;
+import main.java.exceptions.SugestaoException;
 import main.java.exceptions.UsuarioAutenticadoException;
 import main.java.models.Biblioteca;
 import main.java.models.Usuario;
@@ -180,56 +178,19 @@ public class UsuarioService {
         return u;
     }
 
-    public void fazerSugestao(UsuarioService usuarioService) {
+    public Set<Item> fazerSugestao(UsuarioAdaptarImpl usuarioAdaptar) throws SugestaoException {
         Set<Item> sugestoes = new HashSet<>();
-        
-        // Considerar categorias de interesse do usuário
-        // Considerar o histórico do usuário com seu atributo "emprestaveis"
-        // Considerar a área de curso do usuário - FEITO
 
-        // Recomendar no mínimo 3 itens
+        sugestoes.addAll(addSugerirPeloCurso(usuarioAdaptar));
+        sugestoes.addAll(addSugerirPorCategoriaInteresse(usuarioAdaptar));
+        sugestoes.addAll(addSugerirPeloHistorico());
 
-        // Recomendação com base no curso:
-
-        // sugestoes = addSugerirPeloCurso(new UsuarioAdaptarImpl(usuarioService.getUsuario()));
-
-        while (true) {
-            System.out.println("\nEscolha como deseja receber sugestões de itens:");
-            System.out.println("1. Por curso");
-            System.out.println("2. Por interesse");
-            System.out.println("3. Pelo histórico de empréstimos");
-            System.out.print("\nOpção: ");
-    
-            int escolha = InputScannerUtil.scanner.nextInt();
-            InputScannerUtil.scanner.nextLine();
-    
-            if (escolha == 8) {
-                System.out.println("Voltando ao menu principal...\n");
-                break;
-            }
-    
-            switch (escolha) {
-                case 1:
-                    sugestoes = addSugerirPeloCurso(new UsuarioAdaptarImpl(usuarioService.getUsuario()));
-                    break;
-                case 2:
-                    sugestoes = addSugerirPorInteresse(new UsuarioAdaptarImpl(usuarioService.getUsuario()));
-                    break;
-                case 3:
-                sugestoes = usuarioService.addSugerirPeloHistorico();
-                break;
-                default:
-                    System.out.println("Opção inválida. Tente novamente.");
-            }
-    
-            // Aqui você pode fazer o que quiser com o conjunto de sugestões,
-            // por exemplo, imprimir os itens sugeridos.
-            System.out.println("Itens sugeridos:");
-            for (Item sugestao : sugestoes) {
-                System.out.println(sugestao);
-            }
+        if (sugestoes.isEmpty()) {
+            throw new SugestaoException("Não há nenhuma sugestão para você");
         }
 
+
+        return sugestoes;
     }
 
     public Set<Item> addSugerirPeloCurso(UsuarioAdaptarImpl usuarioAdaptar) {
@@ -240,7 +201,7 @@ public class UsuarioService {
 
         if (areaCursoSuperior == AreaCursoSuperior.CIENCIAS_EXATAS) {
             generosInteresse = Arrays.asList("Ficção Científica", "Divulgação Científica", "Matemática e" +
-                    " Lógica", "História da Ciência", "Biografia de Cientista", "Documentário Científico");
+                    " Lógica", "História da Ciência", "Biografia de Cientista", "Documentário Científico", "Ciencia");
             for (Item item : itens) {
                 if ((item instanceof Livro livro && generosInteresse.contains(livro.getGenero())) ||
                         (item instanceof DVD dvd && generosInteresse.contains(dvd.getGenero()))) {
@@ -271,7 +232,130 @@ public class UsuarioService {
         return sugestoes;
     }
 
-    public Set<Item> addSugerirPorInteresse(UsuarioAdaptarImpl usuarioAdaptar) {
+    public Set<Item> addSugerirPorCategoriaInteresse(UsuarioAdaptarImpl usuarioAdaptar) {
+
+        Map<Usuario, Map<FiltroPesquisa, Map<CategoriaInteresse, List<String>>>> mapaDeIntesse =
+                usuarioAdaptar.getMapaDeInteresse();
+        Set<Item> itensSugeridos = new HashSet<>();
+
+        for (Map.Entry<Usuario, Map<FiltroPesquisa, Map<CategoriaInteresse, List<String>>>> entryUsuario :
+                mapaDeIntesse.entrySet()) {
+            Map<FiltroPesquisa, Map<CategoriaInteresse, List<String>>> values = entryUsuario.getValue();
+
+            for (Map.Entry<FiltroPesquisa, Map<CategoriaInteresse, List<String>>> value : values.entrySet()) {
+
+                FiltroPesquisa filtroPesquisa = value.getKey();
+                Map<CategoriaInteresse, List<String>> interesseListMap = value.getValue();
+
+                for (Map.Entry<CategoriaInteresse, List<String>> interesse : interesseListMap.entrySet()) {
+                    CategoriaInteresse categoriaInteresse = interesse.getKey();
+                    List<String> interesseList = interesse.getValue();
+                    itensSugeridos.addAll(catInteresse(filtroPesquisa, categoriaInteresse, interesseList));
+                }
+            }
+        }
+
+        return itensSugeridos;
+    }
+
+
+
+    public Set<Item> catInteresse(FiltroPesquisa filtroPesquisa, CategoriaInteresse categoriaInteresse,
+                                  List<String> interesses) {
+
+        List<Item> itens = this.getBiblioteca().getEstoque().getItens();
+        Set<Item> interessaUsuario = new HashSet<>();
+
+        String atributoInteresse = null;
+
+        for (Item item : itens) {
+
+            if (!verificarTipoItem(item, filtroPesquisa)) {
+                continue;
+            }
+
+            atributoInteresse = obterAtributoInteresse(filtroPesquisa, categoriaInteresse);
+
+            if (atributoInteresse != null) {
+
+                String valorAtributo = obterValorAtributo(item, atributoInteresse);
+
+                for (String interesse : interesses) {
+
+                    if (valorAtributo != null && valorAtributo.equals(interesse)) {
+                        interessaUsuario.add(item);
+                        break;
+                    }
+                }
+            }
+        }
+
+        return interessaUsuario;
+    }
+
+    private boolean verificarTipoItem(Item item, FiltroPesquisa filtroPesquisa) {
+        switch (filtroPesquisa) {
+            case LIVRO:
+                return item instanceof Livro;
+            case DVD:
+                return item instanceof DVD;
+            case CD:
+                return item instanceof CD;
+            default:
+                return false;
+        }
+    }
+
+    private String obterAtributoInteresse(FiltroPesquisa filtroPesquisa, CategoriaInteresse categoriaInteresse) {
+        switch (filtroPesquisa) {
+            case LIVRO:
+                return (categoriaInteresse == CategoriaInteresse.AUTOR) ? "autor" :
+                        (categoriaInteresse == CategoriaInteresse.GENERO) ? "genero" : null;
+            case DVD:
+                return (categoriaInteresse == CategoriaInteresse.DIRETOR) ? "diretor" :
+                        (categoriaInteresse == CategoriaInteresse.GENERO) ? "genero" : null;
+            case CD:
+                return (categoriaInteresse == CategoriaInteresse.ARTISTA) ? "artista" : null;
+            default:
+                return null;
+        }
+    }
+
+    private String obterValorAtributo(Item item, String atributo) {
+        switch (atributo) {
+            case "autor":
+                return (item instanceof Livro livro) ? livro.getAutor() : null;
+            case "genero":
+                return (item instanceof Livro livro) ? livro.getGenero() :
+                        (item instanceof DVD dvd) ? dvd.getGenero() : null;
+            case "diretor":
+                return (item instanceof DVD dvd) ? dvd.getDiretor() : null;
+            case "artista":
+                return (item instanceof CD cd) ? cd.getArtista() : null;
+            default:
+                return null;
+        }
+    }
+
+
+    public Set<Item> addSugerirPeloHistorico() {
+        Set<Item> sugestoes = new HashSet<>();
+        List<Emprestavel> historicoItems = usuario.getEmprestimos();
+
+        for (Item item : historicoItems) {
+            Emprestavel convertItem = (Emprestavel) item;
+            StatusEmprestimo statusEmprestimo = convertItem.getStatusEmprestimo();
+
+            if(statusEmprestimo == StatusEmprestimo.DISPONIVEL)
+               sugestoes.add(item);
+
+        }
+
+        return sugestoes;
+    }
+
+
+ /*   public Set<Item> addSugerirPorInteresse(UsuarioAdaptarImpl usuarioAdaptar) {
         Set<Item> sugestoes = new HashSet<>();
         List<String> categoriaInteresse = usuarioAdaptar.getCategoriaInteresse();
         List<Item> itens = biblioteca.getEstoque().getItens();
@@ -282,26 +366,9 @@ public class UsuarioService {
                 sugestoes.add(item);
             }
         }
-        
-        return sugestoes;
-    }
-
-    public Set<Item> addSugerirPeloHistorico() {
-        Set<Item> sugestoes = new HashSet<>();
-        List<Emprestavel> historicoItems = usuario.getEmprestimos();
-
-        for (Item item : historicoItems) {
-            if (item instanceof Livro livro) {
-                sugestoes.add(item);
-            } else if (item instanceof DVD dvd) {
-                sugestoes.add(item);
-            } else if (item instanceof CD cd) {
-                sugestoes.add(item);
-            }
-        }
 
         return sugestoes;
-    }
+    }*/
 
     public Biblioteca getBiblioteca() {
 
