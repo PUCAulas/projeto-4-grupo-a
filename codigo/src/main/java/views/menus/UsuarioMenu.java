@@ -59,7 +59,7 @@ public class UsuarioMenu {
                     devolverEmprestimo(usuarioService);
                     break;
                 case 7:
-                    //UsuarioInput.obterDadosParaSugestao(usuarioService);
+                usuarioService.fazerSugestao(usuarioService);
                 default:
                     System.out.println("Opção inválida. Tente novamente.");
             }

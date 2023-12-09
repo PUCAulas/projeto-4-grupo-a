@@ -13,6 +13,7 @@ import main.java.models.itens.DVD;
 import main.java.models.itens.Emprestavel;
 import main.java.models.itens.Item;
 import main.java.models.itens.Livro;
+import main.java.utils.InputScannerUtil;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -181,6 +182,7 @@ public class UsuarioService {
 
     public void fazerSugestao(UsuarioService usuarioService) {
         Set<Item> sugestoes = new HashSet<>();
+        
         // Considerar categorias de interesse do usuário
         // Considerar o histórico do usuário com seu atributo "emprestaveis"
         // Considerar a área de curso do usuário - FEITO
@@ -188,7 +190,45 @@ public class UsuarioService {
         // Recomendar no mínimo 3 itens
 
         // Recomendação com base no curso:
-        sugestoes = addSugerirPeloCurso(new UsuarioAdaptarImpl(usuarioService.getUsuario()));
+
+        // sugestoes = addSugerirPeloCurso(new UsuarioAdaptarImpl(usuarioService.getUsuario()));
+
+        while (true) {
+            System.out.println("\nEscolha como deseja receber sugestões de itens:");
+            System.out.println("1. Por curso");
+            System.out.println("2. Por interesse");
+            System.out.println("3. Pelo histórico de empréstimos");
+            System.out.print("\nOpção: ");
+    
+            int escolha = InputScannerUtil.scanner.nextInt();
+            InputScannerUtil.scanner.nextLine();
+    
+            if (escolha == 8) {
+                System.out.println("Voltando ao menu principal...\n");
+                break;
+            }
+    
+            switch (escolha) {
+                case 1:
+                    sugestoes = addSugerirPeloCurso(new UsuarioAdaptarImpl(usuarioService.getUsuario()));
+                    break;
+                case 2:
+                    sugestoes = addSugerirPorInteresse(new UsuarioAdaptarImpl(usuarioService.getUsuario()));
+                    break;
+                case 3:
+                sugestoes = usuarioService.addSugerirPeloHistorico();
+                break;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
+    
+            // Aqui você pode fazer o que quiser com o conjunto de sugestões,
+            // por exemplo, imprimir os itens sugeridos.
+            System.out.println("Itens sugeridos:");
+            for (Item sugestao : sugestoes) {
+                System.out.println(sugestao);
+            }
+        }
 
     }
 
