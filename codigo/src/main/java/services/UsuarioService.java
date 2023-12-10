@@ -208,7 +208,7 @@ public class UsuarioService {
                     sugestoes.add(item);
                 }
             }
-        } else if (areaCursoSuperior == AreaCursoSuperior.CIENCIAS_SOCIAIS) {
+        } else if (areaCursoSuperior == AreaCursoSuperior.CIENCIAS_SOCIAIS || areaCursoSuperior == AreaCursoSuperior.ARTES_E_DESIGN) {
             generosInteresse = Arrays.asList("Romance", "Ficção", "Policial", "Biografia", "Pol" +
                     "ítica", "Filosofia", "Sociologia", "Psicologia", "Drama", "Suspense");
 
@@ -218,7 +218,7 @@ public class UsuarioService {
                     sugestoes.add(item);
                 }
             }
-        } else {
+        } else if(areaCursoSuperior == AreaCursoSuperior.CIENCIAS_DA_SAUDE) {
             generosInteresse = Arrays.asList("Drama Médico", "Biografia", "Saúde", "Ética Médica", "Biologia",
                     "Corpo Humano");
 
@@ -354,21 +354,6 @@ public class UsuarioService {
         return sugestoes;
     }
 
-
- /*   public Set<Item> addSugerirPorInteresse(UsuarioAdaptarImpl usuarioAdaptar) {
-        Set<Item> sugestoes = new HashSet<>();
-        List<String> categoriaInteresse = usuarioAdaptar.getCategoriaInteresse();
-        List<Item> itens = biblioteca.getEstoque().getItens();
-
-        for (Item item : itens) {
-            if ((item instanceof Livro livro && categoriaInteresse.contains("livro")) ||
-                    (item instanceof DVD dvd && categoriaInteresse.contains("dvd"))){
-                sugestoes.add(item);
-            }
-        }
-
-        return sugestoes;
-    }*/
 
     public Biblioteca getBiblioteca() {
 
